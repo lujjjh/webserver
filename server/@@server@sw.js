@@ -9,7 +9,9 @@ let _self = self;
   });
 
   self.addEventListener("activate", async (event) => {
-    event.waitUntil(self.clients.claim());
+    const claim = self.clients.claim();
+    event.waitUntil(claim);
+    await claim;
     for (const client of await self.clients.matchAll()) {
       client.postMessage("reload");
     }
