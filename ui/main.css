@@ -1,0 +1,42 @@
+:root {
+  --font-family: -apple-system, Helvetica, Arial, sans-serif;
+  --font-size: 14px;
+  --line-height: 1.5;
+  --border-radius: 2px;
+  --text-color: #333;
+  --background-color: #fff;
+  --primary-color: #1f6dff;
+  --border-color: #e0e0e6;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font: var(--font-size) / var(--line-height) var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+button {
+  appearance: none;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: var(--text-color);
+  font: inherit;
+  height: 40px;
+  padding: 0 1rem;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
