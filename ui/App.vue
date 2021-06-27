@@ -88,7 +88,8 @@ label {
 }
 
 iframe {
-  display: none;
+  position: absolute;
+  left: -1000px;
 }
 
 form > div {
