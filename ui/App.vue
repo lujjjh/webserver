@@ -15,7 +15,7 @@
 import { onMounted } from "vue";
 import { FS } from "./FS";
 
-ref: url = "http://localhost:4001";
+ref: url = "https://localhost.server.programming.plus";
 ref: iframe = null! as HTMLIFrameElement;
 ref: webRoot = null as string | null;
 ref: fs = null as FS | null;
@@ -43,7 +43,7 @@ onMounted(() => {
       port.postMessage(buffer, [buffer]);
     };
   });
-  iframe.src = "http://localhost:4001/@@server@relay.html";
+  iframe.src = "https://localhost.server.programming.plus/@@server@relay.html";
 });
 
 const chooseWebRoot = async () => {
