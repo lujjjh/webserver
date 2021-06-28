@@ -1,14 +1,17 @@
 <template>
   <form>
-    <h1>编程加 HTTP 服务器</h1>
+    <h1>
+      编程加 HTTP 服务器
+      <small><a target="_blank" href="https://github.com/lujjjh/webserver" rel="nofollow noopener">[GitHub]</a></small>
+    </h1>
     <div class="web-link">
       <a v-if="ready" :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
       <span v-else>正在启动……</span>
     </div>
+    <iframe ref="iframe" :src="`${localhostOrigin}/@@server@relay.html`"></iframe>
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
     <div v-if="webRoot" class="tip">已选择根目录 {{ webRoot }}</div>
-    <iframe ref="iframe" :src="`${localhostOrigin}/@@server@relay.html`"></iframe>
   </form>
 </template>
 
@@ -96,7 +99,7 @@ a {
 }
 
 label {
-  margin: 15px 0;
+  margin: 30px 0 15px;
 }
 
 iframe {
