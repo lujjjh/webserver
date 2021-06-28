@@ -24,22 +24,28 @@ const connect = async () => {
   return port;
 };
 
-await navigator.serviceWorker.register(import.meta.env.DEV ? "/@@server@sw.ts" : "/@@server@sw.js");
-if (!navigator.serviceWorker.controller) {
-  window.location.reload();
-  throw new Error("reload");
-}
-
-navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
-
-navigator.serviceWorker.addEventListener("message", async ({ data, ports: [port] }) => {
-  if (data === "refresh") {
+(async () => {
+  await navigator.serviceWorker.register(import.meta.env.DEV ? "/@@server@sw.ts" : "/@@server@sw.js");
+  if (!navigator.serviceWorker.controller) {
     window.location.reload();
-    return;
+    throw new Error("reload");
   }
-  if (!port) return;
-  if (data === "connect") {
-    const connectionPort = await connect();
-    port.postMessage("connect", connectionPort && [connectionPort]);
-  }
-});
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
+
+  navigator.serviceWorker.addEventListener("message", async ({ data, ports: [port] }) => {
+    if (data === "refresh") {
+      window.location.reload();
+      return;
+    }
+    if (!port) return;
+    if (data === "connect") {
+      const connectionPort = await connect();
+      if (!connectionPort) {
+        port.postMessage("connect");
+      } else {
+        port.postMessage("connect", [connectionPort]);
+      }
+    }
+  });
+})();
