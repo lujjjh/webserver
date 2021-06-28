@@ -2,20 +2,24 @@
   <form>
     <h1>编程加 HTTP 服务器</h1>
     <div class="web-link">
-      <a :href="url" target="_blank">{{ url }}</a>
+      <a :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
     </div>
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
     <div v-if="webRoot" class="tip">已选择根目录 {{ webRoot }}</div>
-    <iframe ref="iframe"></iframe>
+    <iframe
+      ref="iframe"
+      :src="`${localhostOrigin}/@@server@relay.html`"
+    ></iframe>
   </form>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { FS } from "./FS";
+import * as env from "./env";
 
-ref: url = "https://localhost.server.programming.plus";
+ref: localhostOrigin = env.localhostOrigin;
 ref: iframe = null! as HTMLIFrameElement;
 ref: webRoot = null as string | null;
 ref: fs = null as FS | null;
@@ -43,7 +47,6 @@ onMounted(() => {
       port.postMessage(buffer, [buffer]);
     };
   });
-  iframe.src = "https://localhost.server.programming.plus/@@server@relay.html";
 });
 
 const chooseWebRoot = async () => {
