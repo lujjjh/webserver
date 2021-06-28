@@ -79,11 +79,14 @@ form {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
   max-width: 1000px;
-  overflow: auto;
   padding: 30px;
+}
+
+form > * {
+  flex-shrink: 0;
 }
 
 h1 {
