@@ -28,7 +28,11 @@ const connect = async () => {
   await navigator.serviceWorker.register(import.meta.env.DEV ? "/@@server@sw.ts" : "/@@server@sw.js");
   if (!navigator.serviceWorker.controller) {
     window.location.reload();
-    throw new Error("reload");
+    return;
+  }
+
+  if (window.parent !== window) {
+    window.parent.postMessage("ready", "*");
   }
 
   navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());

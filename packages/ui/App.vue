@@ -2,7 +2,8 @@
   <form>
     <h1>编程加 HTTP 服务器</h1>
     <div class="web-link">
-      <a :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
+      <a v-if="ready" :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
+      <span v-else>正在启动……</span>
     </div>
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
@@ -18,11 +19,11 @@ import * as env from "./env";
 
 ref: localhostOrigin = env.localhostOrigin;
 ref: iframe = null! as HTMLIFrameElement;
+ref: ready = false;
 ref: webRoot = null as string | null;
 ref: fs = null as FS | null;
 
 onMounted(() => {
-  let port: MessagePort;
   const handleRequest = async ({ data, ports: [port] }: MessageEvent) => {
     if (!port) return;
     const pathname = data?.pathname;
@@ -39,8 +40,10 @@ onMounted(() => {
     const buffer = await file.arrayBuffer();
     port.postMessage(buffer, [buffer]);
   };
-  const handleConnection = ({ data, ports: [port] }: MessageEvent) => {
-    if (data === "connect" && port) {
+  const handleMessage = ({ data, ports: [port] }: MessageEvent) => {
+    if (data === "ready") {
+      ready = true;
+    } else if (data === "connect" && port) {
       console.debug("establishing connection");
       const { port1, port2 } = new MessageChannel();
       port1.addEventListener("message", (event) => {
@@ -51,8 +54,8 @@ onMounted(() => {
       port.postMessage("connect", [port2]);
     }
   };
-  addEventListener("message", handleConnection);
-  return () => void removeEventListener("message", handleConnection);
+  addEventListener("message", handleMessage);
+  return () => void removeEventListener("message", handleMessage);
 });
 
 const chooseWebRoot = async () => {
