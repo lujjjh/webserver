@@ -9,12 +9,20 @@
   };
 
   await navigator.serviceWorker.register("/@@server@sw.js");
-  if (navigator.serviceWorker.controller) initPorts();
-  navigator.serviceWorker.oncontrollerchange = () => void initPorts();
+  if (!navigator.serviceWorker.controller) {
+    window.location.reload();
+    return;
+  }
+  navigator.serviceWorker.addEventListener(
+    "controllerchange",
+    () => void window.location.reload()
+  );
+
+  initPorts();
 
   navigator.serviceWorker.addEventListener("message", ({ data }) => {
     if (data === "reload") {
-      location.reload();
+      window.location.reload();
     }
   });
 })();
