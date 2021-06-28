@@ -26,27 +26,30 @@ ref: fs = null as FS | null;
 
 onMounted(() => {
   let port: MessagePort;
-  iframe.addEventListener("load", () => {
-    const { port1, port2 } = new MessageChannel();
-    port = port1;
-    iframe.contentWindow?.postMessage("init", "*", [port2]);
-    port.onmessage = async ({ data, ports }) => {
-      const [port] = ports;
-      if (!port) return;
-      const pathname = data?.pathname;
-      if (!fs) {
-        port.postMessage(null);
-        return;
-      }
-      const file = await fs.getFile(pathname);
-      if (!file) {
-        port.postMessage(null);
-        return;
-      }
-      const buffer = await file.arrayBuffer();
-      port.postMessage(buffer, [buffer]);
-    };
-  });
+  const handleRequest = async ({ data, ports: [port] }: MessageEvent) => {
+    if (!port) return;
+    const pathname = data?.pathname;
+    console.debug("request:", pathname);
+    if (!fs) {
+      port.postMessage(null);
+      return;
+    }
+    const file = await fs.getFile(pathname);
+    if (!file) {
+      port.postMessage(null);
+      return;
+    }
+    const buffer = await file.arrayBuffer();
+    port.postMessage(buffer, [buffer]);
+  };
+  const handleInitPort = ({ data, ports }: MessageEvent) => {
+    if (data === "init_port" && ports.length) {
+      port = ports[0];
+      port.onmessage = handleRequest;
+    }
+  };
+  addEventListener("message", handleInitPort);
+  return () => void removeEventListener("message", handleInitPort);
 });
 
 const chooseWebRoot = async () => {

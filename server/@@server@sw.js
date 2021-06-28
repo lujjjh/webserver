@@ -4,8 +4,8 @@
 let _self = self;
 
 ((self) => {
-  self.addEventListener("install", (event) => {
-    event.waitUntil(_self.skipWaiting());
+  self.addEventListener("install", () => {
+    _self.skipWaiting();
   });
 
   self.addEventListener("activate", async (event) => {
@@ -31,11 +31,10 @@ let _self = self;
     return port;
   };
 
-  self.addEventListener("message", ({ ports }) => {
-    const [port] = ports;
-    if (port) {
-      updatePort(port);
-    }
+  self.addEventListener("message", ({ ports: [port] }) => {
+    console.debug("init_port", port);
+    if (!port) return;
+    updatePort(port);
   });
 
   const readFile = async (pathname) => {
