@@ -8,12 +8,7 @@ self.addEventListener("install", () => {
 });
 
 self.addEventListener("activate", async (event) => {
-  const claim = self.clients.claim();
-  event.waitUntil(claim);
-  await claim;
-  for (const client of await self.clients.matchAll()) {
-    client.postMessage("reload");
-  }
+  event.waitUntil(self.clients.claim());
 });
 
 const withTimeout = <T>(promise: Promise<T>, timeout: number, error: Error) =>

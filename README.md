@@ -6,6 +6,8 @@
 
 <https://server.programming.plus/>
 
+> Currently, Chrome and Edge are the only supported browsers.
+
 ## Features
 
 - [x] No installation required.

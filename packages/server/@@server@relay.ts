@@ -38,10 +38,6 @@ const connect = async () => {
   navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
 
   navigator.serviceWorker.addEventListener("message", async ({ data, ports: [port] }) => {
-    if (data === "refresh") {
-      window.location.reload();
-      return;
-    }
     if (!port) return;
     if (data === "connect") {
       const connectionPort = await connect();

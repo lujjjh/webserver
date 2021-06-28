@@ -8,6 +8,7 @@
       <a v-if="ready" :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
       <span v-else>正在启动……</span>
     </div>
+    <div class="tip">目前仅支持 Chrome / Edge</div>
     <iframe ref="iframe" :src="`${localhostOrigin}/@@server@relay.html`"></iframe>
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
@@ -117,6 +118,6 @@ form > div {
 }
 
 .tip {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 </style>
