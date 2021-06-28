@@ -17,6 +17,12 @@ let _self = self;
     }
   });
 
+  const withTimeout = (promise, timeout, error) =>
+    Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => void reject(error), timeout)),
+    ]);
+
   let port;
   let resolvePort;
   const waitForFirstPort = new Promise(
@@ -27,7 +33,11 @@ let _self = self;
     resolvePort();
   };
   const getPort = async () => {
-    await waitForFirstPort;
+    await withTimeout(
+      waitForFirstPort,
+      1000,
+      new Error("getPort: failed to connect to the server")
+    );
     return port;
   };
 
@@ -49,7 +59,11 @@ let _self = self;
         resolve(data);
       }
     };
-    return new Promise((_resolve) => void (resolve = _resolve));
+    return withTimeout(
+      new Promise((_resolve) => void (resolve = _resolve)),
+      1000,
+      new Error("read timeout")
+    );
   };
 
   const mimeTypeFromPathname = (pathname) => {
@@ -81,7 +95,12 @@ let _self = self;
         let actualPathname;
         let buffer;
         for (const _pathname of [pathname, pathname + "/index.html"]) {
-          buffer = await readFile(_pathname);
+          try {
+            buffer = await readFile(_pathname);
+          } catch (error) {
+            console.error(error);
+            return new Response(new Blob([error.message]), { status: 500 });
+          }
           if (buffer) {
             actualPathname = _pathname;
             break;
