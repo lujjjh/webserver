@@ -6,5 +6,6 @@ export default defineConfig({
     port: 4000,
     strictPort: true,
   },
+  clearScreen: false,
   plugins: [vue()],
 });

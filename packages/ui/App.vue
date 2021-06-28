@@ -7,10 +7,7 @@
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
     <div v-if="webRoot" class="tip">已选择根目录 {{ webRoot }}</div>
-    <iframe
-      ref="iframe"
-      :src="`${localhostOrigin}/@@server@relay.html`"
-    ></iframe>
+    <iframe ref="iframe" :src="`${localhostOrigin}/@@server@relay.html`"></iframe>
   </form>
 </template>
 
@@ -42,14 +39,20 @@ onMounted(() => {
     const buffer = await file.arrayBuffer();
     port.postMessage(buffer, [buffer]);
   };
-  const handleInitPort = ({ data, ports }: MessageEvent) => {
-    if (data === "init_port" && ports.length) {
-      port = ports[0];
-      port.onmessage = handleRequest;
+  const handleConnection = ({ data, ports: [port] }: MessageEvent) => {
+    if (data === "connect" && port) {
+      console.debug("establishing connection");
+      const { port1, port2 } = new MessageChannel();
+      port1.addEventListener("message", (event) => {
+        handleRequest(event);
+        port1.close();
+      });
+      port1.start();
+      port.postMessage("connect", [port2]);
     }
   };
-  addEventListener("message", handleInitPort);
-  return () => void removeEventListener("message", handleInitPort);
+  addEventListener("message", handleConnection);
+  return () => void removeEventListener("message", handleConnection);
 });
 
 const chooseWebRoot = async () => {
