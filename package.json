@@ -5,9 +5,7 @@
     "dev:server": "cd packages/server && npm run dev",
     "dev:ui": "cd packages/ui && npm run dev",
     "dev": "(npm run dev:server &) && npm run dev:ui",
-    "build:server": "cd packages/server && npm i && npm run build",
-    "build:ui": "cd packages/ui && npm i && npm run build",
-    "build": "npm run build:server && npm run build:ui"
+    "build": "make -j2"
   },
   "workspaces": [
     "packages/*"

@@ -1,0 +1,14 @@
+{
+  "folders": [
+    { "name": "ROOT", "path": ".." },
+    { "name": "server", "path": "../packages/server" },
+    { "name": "ui", "path": "../packages/ui" }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "files.exclude": {
+      "node_modules/": true,
+      "packages/": true
+    }
+  }
+}

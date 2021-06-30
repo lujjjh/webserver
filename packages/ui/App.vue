@@ -1,8 +1,8 @@
 <template>
   <form>
     <h1>
-      编程加 HTTP 服务器
-      <small><a target="_blank" href="https://github.com/lujjjh/webserver" rel="nofollow noopener">[GitHub]</a></small>
+      Webserver
+      <small><a target="_blank" href="https://github.com/lujjjh/webserver" rel="nofollow noopener">GitHub</a></small>
     </h1>
     <div class="web-link">
       <a v-if="ready" :href="localhostOrigin" target="_blank">{{ localhostOrigin }}</a>
@@ -90,11 +90,19 @@ form > * {
 }
 
 h1 {
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
+  display: flex;
   font-size: 1.5rem;
-  font-weight: normal;
+  font-weight: bold;
   margin: 0 0 15px;
   padding: 15px 0;
+}
+
+h1 small {
+  margin-left: auto;
+  font-size: 1rem;
+  font-weight: normal;
 }
 
 a {
