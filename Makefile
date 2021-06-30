@@ -1,16 +1,18 @@
-TARGETS = dist/server dist/ui
+INSTALL_PACKAGES = server ui
 
-.PHONY: all clean build _
+.PHONY: all clean install build _
 
-all: clean build
+all: clean install
 
 clean:
 	rm -rf dist
 
-build: $(TARGETS)
+install: $(addprefix dist/,$(INSTALL_PACKAGES))
 
-dist/%: packages/% _
-	@rm -rf $@
-	@mkdir -p $@
-	cd $< && npm install && npm run build
+build:
+	$(MAKE) -C packages
+
+dist/%: packages/% build _
+	rm -rf $@
+	mkdir -p $@
 	cp -r $</dist/* $@
