@@ -10,3 +10,12 @@ jobs:
           node-version: "16"
           cache: npm
       - run: npm run build
+      - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: easingthemes/ssh-deploy@v2.2.11
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-avzr --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
