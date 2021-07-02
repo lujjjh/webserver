@@ -19,7 +19,7 @@ const roundTrip = async (data: any) => {
   const client = clients.find(
     ({ url, frameType }) => new URL(url).pathname === "/@@server@relay.html" && frameType === "nested"
   );
-  if (!client) throw new Error("failed to connect to the server");
+  if (!client) throw new Error("failed to find to the server");
   const { port1, port2 } = new MessageChannel();
   return new Promise<MessageEvent>((resolve) => {
     port1.addEventListener("message", (event) => {
@@ -42,7 +42,7 @@ const getPort = async () => {
 };
 
 const readFile = async (pathname: string) => {
-  const port = await withTimeout(getPort(), 1000, new Error("getPort timed out"));
+  const port = await withTimeout(getPort(), 500, new Error("getPort timed out"));
   const { port1, port2 } = new MessageChannel();
   port.postMessage({ pathname }, [port2]);
   let resolve: (data: ArrayBuffer | null) => void;

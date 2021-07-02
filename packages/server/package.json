@@ -2,13 +2,17 @@
   "name": "server",
   "private": "true",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "npm run build -- --watch",
+    "build": "rm -rf dist && rollup --config rollup.config.ts --configPlugin typescript"
   },
   "devDependencies": {
-    "@types/node": "^15.12.5",
-    "@vuedx/typecheck": "^0.7.4",
-    "typescript": "^4.3.4",
-    "vite": "^2.3.8"
+    "@rollup/plugin-html": "^0.2.3",
+    "@rollup/plugin-replace": "^2.4.2",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@types/node": "^15.14.0",
+    "rollup": "^2.52.6",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.3.4"
   }
 }

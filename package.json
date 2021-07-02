@@ -4,10 +4,13 @@
   "scripts": {
     "dev:server": "cd packages/server && npm run dev",
     "dev:ui": "cd packages/ui && npm run dev",
-    "dev": "(npm run dev:server &) && npm run dev:ui",
+    "dev": "concurrently -k 'npm run dev:server' 'npm run dev:ui'",
     "build": "make -j2"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
 }

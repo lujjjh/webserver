@@ -25,7 +25,7 @@ const connect = async () => {
 };
 
 (async () => {
-  await navigator.serviceWorker.register(import.meta.env.DEV ? "/@@server@sw.ts" : "/@@server@sw.js");
+  await navigator.serviceWorker.register("/" + process.env.SW_FILENAME);
   if (!navigator.serviceWorker.controller) {
     window.location.reload();
     return;
