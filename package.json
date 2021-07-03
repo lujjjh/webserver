@@ -1,10 +1,11 @@
 {
-  "name": "server",
+  "name": "@webserver/monorepo",
   "private": true,
   "scripts": {
+    "dev:core": "cd packages/core && npm run dev",
     "dev:server": "cd packages/server && npm run dev",
     "dev:ui": "cd packages/ui && npm run dev",
-    "dev": "concurrently -k 'npm run dev:server' 'npm run dev:ui'",
+    "dev": "concurrently -k 'npm run dev:core' 'npm run dev:server' 'npm run dev:ui'",
     "build": "make -j2"
   },
   "workspaces": [
