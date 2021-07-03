@@ -1,6 +1,7 @@
 {
   "folders": [
     { "name": "ROOT", "path": ".." },
+    { "name": "core", "path": "../packages/core" },
     { "name": "server", "path": "../packages/server" },
     { "name": "ui", "path": "../packages/ui" }
   ],

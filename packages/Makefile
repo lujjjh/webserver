@@ -7,4 +7,4 @@ all: build
 build: $(PACKAGES)
 
 %/: % _
-	cd $< && npm install && npm run build
+	cd $< && npm run build

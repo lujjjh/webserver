@@ -2,9 +2,10 @@
   --font-family: -apple-system, Helvetica, Arial, sans-serif;
   --font-size: 14px;
   --line-height: 1.5;
-  --border-radius: 2px;
+  --border-radius: 4px;
+  --input-height: 35px;
   --text-color: #333;
-  --background-color: #fff;
+  --background-color: #f4f5f6;
   --primary-color: #1f6dff;
   --border-color: #e0e0e6;
 }
@@ -23,20 +24,39 @@ html {
   color: var(--text-color);
 }
 
-button {
+#app {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+button,
+input {
   appearance: none;
   background: var(--background-color);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  cursor: pointer;
+  box-sizing: border-box;
   color: var(--text-color);
   font: inherit;
-  height: 40px;
-  padding: 0 1rem;
+  height: var(--input-height);
+  padding: 0 10px;
   transition: all 0.25s ease;
 }
 
+button {
+  cursor: pointer;
+  color: var(--text-color);
+}
+
 button:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  --border-color: var(--primary-color);
+  --text-color: var(--primary-color);
+}
+
+input:focus {
+  outline: 0 none;
 }

@@ -10,6 +10,7 @@ clean:
 install: $(addprefix dist/,$(INSTALL_PACKAGES))
 
 build:
+	npm install
 	$(MAKE) -C packages
 
 dist/%: packages/% build _

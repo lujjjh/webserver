@@ -1,0 +1,20 @@
+{
+  "name": "@webserver/core",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "fp-ts": "^2.10.5",
+    "io-ts": "^2.2.16"
+  }
+}
