@@ -8,3 +8,6 @@ build: $(PACKAGES)
 
 %/: % _
 	cd $< && npm run build
+
+server/: core/
+ui/: core/
