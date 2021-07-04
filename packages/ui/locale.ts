@@ -6,4 +6,6 @@ export default createI18n({
   locale: "",
   fallbackLocale: [...navigator.languages, "en"],
   messages,
+  fallbackWarn: false,
+  missingWarn: false,
 });
