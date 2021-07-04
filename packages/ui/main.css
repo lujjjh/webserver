@@ -1,5 +1,6 @@
 :root {
   --font-family: -apple-system, Helvetica, Arial, sans-serif;
+  --monospace-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   --font-size: 14px;
   --line-height: 1.5;
   --border-radius: 4px;
@@ -7,6 +8,7 @@
   --text-color: #333;
   --background-color: #f4f5f6;
   --primary-color: #1f6dff;
+  --primary-color-active: hsl(219, 100%, 45%);
   --border-color: #e0e0e6;
 }
 
@@ -54,16 +56,21 @@ a {
   text-decoration: none;
 }
 
+a:active {
+  color: var(--primary-color-active);
+}
+
 button,
 input {
   appearance: none;
-  background: var(--background-color);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   box-sizing: border-box;
   color: var(--text-color);
   font: inherit;
   height: var(--input-height);
+  outline: 0 none;
   padding: 0 10px;
   transition: all 0.25s ease;
 }
@@ -71,6 +78,7 @@ input {
 button {
   cursor: pointer;
   color: var(--text-color);
+  font-weight: bold;
 }
 
 button:hover {
@@ -78,6 +86,91 @@ button:hover {
   --text-color: var(--primary-color);
 }
 
+button:not([type]),
+button[type="submit"] {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+}
+
+button:not([type]):active,
+button[type="submit"]:active {
+  --primary-color: var(--primary-color-active);
+}
+
+button:disabled {
+  background-color: var(--background-color);
+  border-color: var(--background-color);
+  color: #999;
+  cursor: not-allowed;
+}
+
+input {
+  background-color: var(--background-color);
+  border-color: var(--background-color);
+}
+
+input::-webkit-input-placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
 input:focus {
-  outline: 0 none;
+  background-color: #fff;
+  border-color: var(--border-color);
+}
+
+.content-wrapper {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.content-wrapper.center {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 30px;
+}
+
+.card header {
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+form > * {
+  margin: 10px 0;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+form .tip {
+  color: #666;
+  margin-top: 0;
+}
+
+form .error {
+  color: #b90b0b;
+}
+
+pre,
+code {
+  font-family: var(--monospace-font-family);
 }

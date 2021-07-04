@@ -14,3 +14,5 @@ export const defaultSite = (): Site => ({
     routes: [],
   },
 });
+
+export const sitePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;

@@ -1,6 +1,18 @@
-import { defaultSite, Site } from "./Site";
+import { defaultSite, Site, sitePattern } from "./Site";
 
-export class Sites extends Array {
+export class InvalidNameError extends Error {
+  constructor() {
+    super("site name should be a valid domain prefix");
+  }
+}
+
+export class DuplicatedNameError extends Error {
+  constructor(name: string) {
+    super(`site name ${name} is already taken`);
+  }
+}
+
+export class Sites extends Array<Site> {
   private constructor(sites: Site[]) {
     super();
     for (let i = 0; i < sites.length; i++) this[i] = sites[i];
@@ -23,5 +35,28 @@ export class Sites extends Array {
 
   toJSON() {
     return this.map((site) => Site.encode(site));
+  }
+
+  checkSiteName(name: string) {
+    if (!sitePattern.test(name) || name.length > 64) {
+      throw new InvalidNameError();
+    }
+
+    // check if the site name already exists
+    if (this.find((site) => site.name === name)) {
+      throw new DuplicatedNameError(name);
+    }
+  }
+
+  createSite(name: string, site?: Partial<Omit<Site, "name">>) {
+    name = name.trim().toLowerCase();
+    this.checkSiteName(name);
+    this.push({
+      configuration: {
+        routes: [],
+      },
+      ...site,
+      name,
+    });
   }
 }

@@ -7,7 +7,7 @@
     </svg>
     <h3>
       Select a site, or
-      <router-link to="/create/site">create a new one</router-link>.
+      <router-link to="/new/site">create a new one</router-link>.
     </h3>
   </div>
 </template>
