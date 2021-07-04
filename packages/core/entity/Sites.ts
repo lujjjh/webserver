@@ -59,4 +59,11 @@ export class Sites extends Array<Site> {
       name,
     });
   }
+
+  removeSite(name: string) {
+    const index = this.findIndex((site) => site.name === name);
+    if (index === -1) return false;
+    this.splice(index, 1);
+    return true;
+  }
 }

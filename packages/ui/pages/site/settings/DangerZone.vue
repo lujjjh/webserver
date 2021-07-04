@@ -1,0 +1,56 @@
+<template>
+  <div class="card">
+    <header>Danger zone</header>
+    <form @submit.prevent="removeSite">
+      <template v-if="acquiringRemoval">
+        <input ref="confirmInput" :placeholder="`Enter &quot;${name}&quot; to confirm`" v-model="confirmName" />
+        <button type="submit" class="danger" :disabled="confirmName !== name">Confirm</button>
+        <button type="button" @click="acquiringRemoval = false">Cancel</button>
+      </template>
+      <template v-else>
+        <button type="button" class="danger" @click="acquiringRemoval = true">Remove this site</button>
+      </template>
+    </form>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, nextTick, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useSites } from "@/shared/sites";
+
+ref: router = useRouter();
+ref: route = useRoute();
+ref: name = computed(() => route.params.name as string);
+ref: confirmName = "";
+ref: confirmInput = ref<HTMLInputElement>();
+ref: acquiringRemoval = false;
+ref: sites = useSites();
+
+watch($acquiringRemoval, (value) => {
+  if (value) nextTick(() => void confirmInput?.focus());
+  else nextTick(() => void (confirmName = ""));
+});
+
+const removeSite = () => {
+  if (confirmName === name) {
+    sites.removeSite(name);
+    router.push("/");
+  }
+};
+</script>
+
+<style scoped>
+form {
+  flex-direction: row;
+}
+
+form > * {
+  margin-right: 10px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+}
+</style>
