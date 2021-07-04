@@ -7,9 +7,11 @@
   --input-height: 35px;
   --text-color: #333;
   --background-color: #f4f5f6;
-  --primary-color: #1f6dff;
+  --primary-color: hsl(219, 100%, 56%);
   --primary-color-active: hsl(219, 100%, 45%);
   --border-color: #e0e0e6;
+  --danger-color: #b90b0b;
+  --danger-color-active: hsl(0, 89%, 30%);
 }
 
 html,
@@ -98,6 +100,22 @@ button[type="submit"]:active {
   --primary-color: var(--primary-color-active);
 }
 
+button.danger {
+  background-color: #fff;
+  border-color: var(--border-color);
+  color: var(--danger-color);
+}
+
+button.danger:hover {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+  color: #fff;
+}
+
+button.danger:active {
+  --danger-color: var(--danger-color-active);
+}
+
 button:disabled {
   background-color: var(--background-color);
   border-color: var(--background-color);
@@ -132,18 +150,18 @@ input:focus {
   justify-content: center;
 }
 
+.content-wrapper header {
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 1.5rem 0;
+}
+
 .card {
   background-color: #fff;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 30px;
-}
-
-.card header {
-  color: #000;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0 0 1rem 0;
 }
 
 form {
@@ -167,7 +185,7 @@ form .tip {
 }
 
 form .error {
-  color: #b90b0b;
+  color: var(--danger-color);
 }
 
 pre,

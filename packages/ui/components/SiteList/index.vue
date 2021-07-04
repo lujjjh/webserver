@@ -33,6 +33,7 @@ ref: visibleSites = computed(() => search<Site>(sites, ({ name }) => name, query
 <style scoped>
 aside {
   background-color: #fff;
+  border-right: 1px solid var(--border-color);
   overflow: auto;
   width: 300px;
 }
