@@ -6,8 +6,8 @@
       </header>
     </div>
     <ol>
-      <li><router-link :to="`/sites/${name}`" :data-content="$t('site.overview')" /></li>
-      <li><router-link :to="`/sites/${name}/settings`" :data-content="$t('site.settings')" /></li>
+      <li><router-link :to="`/sites/${name}`" :data-content="t('site.overview')" /></li>
+      <li><router-link :to="`/sites/${name}/settings`" :data-content="t('site.settings')" /></li>
     </ol>
   </nav>
   <router-view />
@@ -16,8 +16,10 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 ref: route = useRoute();
+ref: ({ t } = useI18n());
 ref: name = computed(() => route.params.name as string);
 </script>
 
