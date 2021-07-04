@@ -19,13 +19,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
+import { Site } from "@webserver/core";
 import Logo from "@/components/Logo.vue";
 import { useSites, linkToSite } from "@/shared/site";
 import { search } from "@/shared/search";
 
 ref: query = "";
 ref: sites = useSites();
-ref: visibleSites = computed(() => search(sites, ({ name }) => name, query));
+ref: visibleSites = computed(() => search<Site>(sites, ({ name }) => name, query));
 </script>
 
 <style scoped>
