@@ -1,0 +1,25 @@
+siteList:
+  searchSites: Search sites...
+  create: Create
+guide:
+  begin: "Select a site, or "
+  create: create a new one
+  end: "."
+createSite:
+  title: Create site
+  siteName: Site name
+  siteNamePlaceholder: e.g. localhost, my-site
+  siteNameTip: Site name should be a valid domain prefix.
+  siteNameTipServe: This site will be served at <code><em>%{prefix}</em>%{suffix}</code>.
+  invalidNameError: Site name should be a valid domain prefix.
+  duplicatedNameError: This site name has already been taken.
+  create: Create
+site:
+  overview: Overview
+  settings: Settings
+dangerZone:
+  title: Danger zone
+  removeSite: Remove this site
+  confirmPlaceholder: Enter "{name}" to confirm
+  confirm: Confirm
+  cancel: Cancel

@@ -6,11 +6,17 @@
       />
     </svg>
     <h3>
-      Select a site, or
-      <router-link to="/new/site">create a new one</router-link>.
+      {{ t("guide.begin") }}<router-link to="/new/site">{{ t("guide.create") }}</router-link
+      >{{ t("guide.end") }}
     </h3>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { useI18n } from "vue-i18n";
+
+ref: ({ t } = useI18n());
+</script>
 
 <style scoped>
 .guide {

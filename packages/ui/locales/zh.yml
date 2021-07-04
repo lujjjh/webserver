@@ -1,0 +1,25 @@
+siteList:
+  searchSites: 搜索站点...
+  create: 创建
+guide:
+  begin: 选择站点，或者
+  create: 创建新站点
+  end: 。
+createSite:
+  title: 创建站点
+  siteName: 站点名称
+  siteNamePlaceholder: 例如 localhost, my-site
+  siteNameTip: 站点名称应当是合法的域名前缀。
+  siteNameTipServe: 该站点将被服务于 <code><em>%{prefix}</em>%{suffix}</code>。
+  invalidNameError: 站点名称应当是合法的域名前缀。
+  duplicatedNameError: 该站点名称已被占用。
+  create: 创建
+site:
+  overview: 概览
+  settings: 设置
+dangerZone:
+  title: 危险区
+  removeSite: 移除该站点
+  confirmPlaceholder: 输入 "{name}" 确认
+  confirm: 确认
+  cancel: 取消
