@@ -1,15 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
-import { Site, defaultSite } from "@webserver/core";
+import { Site, Sites, SitesSerializer } from "@webserver/core";
 
-const defaultSites = () => [defaultSite()];
-
-export const useSites = () => {
-  const state = useLocalStorage<Site[]>("sites", defaultSites());
-  if (!Array.isArray(state.value)) {
-    state.value = defaultSites();
-  }
-  state.value = state.value.filter((maybeSite: unknown) => Site.is(maybeSite));
-  return state;
-};
+export const useSites = () => useLocalStorage("sites", Sites.defaults(), { serializer: new SitesSerializer() });
 
 export const linkToSite = ({ name }: Site) => `/sites/${name}`;

@@ -28,6 +28,27 @@ html {
   min-height: 100vh;
 }
 
+h1,
+h2,
+h3 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+
 a {
   color: var(--primary-color);
   text-decoration: none;
