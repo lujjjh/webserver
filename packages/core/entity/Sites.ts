@@ -2,13 +2,13 @@ import { defaultSite, Site, sitePattern } from "./Site";
 
 export class InvalidNameError extends Error {
   constructor() {
-    super("site name should be a valid domain prefix");
+    super("createSite.invalidNameError");
   }
 }
 
 export class DuplicatedNameError extends Error {
-  constructor(name: string) {
-    super(`site name ${name} is already taken`);
+  constructor() {
+    super("createSite.duplicatedNameError");
   }
 }
 
@@ -44,7 +44,7 @@ export class Sites extends Array<Site> {
 
     // check if the site name already exists
     if (this.find((site) => site.name === name)) {
-      throw new DuplicatedNameError(name);
+      throw new DuplicatedNameError();
     }
   }
 

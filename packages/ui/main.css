@@ -116,7 +116,9 @@ button.danger:active {
   --danger-color: var(--danger-color-active);
 }
 
-button:disabled {
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
   background-color: var(--background-color);
   border-color: var(--background-color);
   color: #999;

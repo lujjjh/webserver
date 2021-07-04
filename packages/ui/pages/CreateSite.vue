@@ -1,12 +1,12 @@
 <template>
   <div class="content-wrapper center">
     <div class="card">
-      <header>Create site</header>
+      <header>{{ $t("createSite.title") }}</header>
       <form ref="form" @submit.prevent="createSite">
-        <label for="name">Site name</label>
+        <label for="name">{{ $t("createSite.siteName") }}</label>
         <input
           id="name"
-          placeholder="e.g. localhost, my-site"
+          :placeholder="$t('createSite.siteNamePlaceholder')"
           autofocus
           v-model.trim="name"
           maxlength="64"
@@ -17,23 +17,21 @@
           autocorrect="off"
           @input="checkSiteName"
         />
-        <div v-if="error" class="tip error">{{ error.message }}</div>
-        <div v-else-if="name" class="tip">
-          This site will be served at
-          <code class="domain-preview"
-            ><em>{{ name }}</em
-            >.webserver.run</code
-          >.
-        </div>
-        <div v-else class="tip">Site name should be a valid domain prefix.</div>
-        <button :disabled="!!(!name || error)">Create</button>
+        <div v-if="error" class="tip error">{{ $t(error.message) }}</div>
+        <div
+          v-else-if="name"
+          class="tip domain-preview"
+          v-html="$t('createSite.siteNameTipServe', { prefix: name, suffix: '.webserver.run' })"
+        />
+        <div v-else class="tip">{{ $t("createSite.siteNameTip") }}</div>
+        <button :disabled="!canSubmit">{{ $t("createSite.create") }}</button>
       </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAutoFocus } from "@/shared/autofocus";
 import { useSites } from "@/shared/sites";
@@ -43,6 +41,7 @@ ref: form = ref<HTMLFormElement>();
 ref: name = "";
 ref: error = ref<Error>();
 ref: sites = useSites();
+ref: canSubmit = computed(() => name !== "" && !error);
 ref: router = useRouter();
 
 useAutoFocus();
