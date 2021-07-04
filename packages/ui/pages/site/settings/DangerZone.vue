@@ -1,14 +1,14 @@
 <template>
   <div class="card">
-    <header>Danger zone</header>
+    <header>{{ $t("dangerZone.title") }}</header>
     <form @submit.prevent="removeSite">
       <template v-if="acquiringRemoval">
-        <input ref="confirmInput" :placeholder="`Enter &quot;${name}&quot; to confirm`" v-model="confirmName" />
-        <button type="submit" class="danger" :disabled="confirmName !== name">Confirm</button>
-        <button type="button" @click="acquiringRemoval = false">Cancel</button>
+        <input ref="confirmInput" :placeholder="$t('dangerZone.confirmPlaceholder', { name })" v-model="confirmName" />
+        <button type="submit" class="danger" :disabled="confirmName !== name">{{ $t("dangerZone.confirm") }}</button>
+        <button type="button" @click="acquiringRemoval = false">{{ $t("dangerZone.cancel") }}</button>
       </template>
       <template v-else>
-        <button type="button" class="danger" @click="acquiringRemoval = true">Remove this site</button>
+        <button type="button" class="danger" @click="acquiringRemoval = true">{{ $t("dangerZone.removeSite") }}</button>
       </template>
     </form>
   </div>

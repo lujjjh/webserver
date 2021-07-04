@@ -6,8 +6,8 @@
       </router-link>
     </header>
     <div class="search">
-      <input type="search" placeholder="Search sites..." v-model="query" />
-      <router-link to="/new/site">Create</router-link>
+      <input type="search" :placeholder="$t('siteList.searchSites')" v-model="query" />
+      <router-link to="/new/site">{{ $t("siteList.create") }}</router-link>
     </div>
     <ul>
       <li v-for="site in visibleSites">
@@ -63,6 +63,7 @@ header {
   overflow: hidden;
   padding: 0 10px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .search input[type="search"]:focus + a {
