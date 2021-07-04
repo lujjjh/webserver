@@ -7,6 +7,7 @@
     </header>
     <div class="search">
       <input type="search" placeholder="Search sites..." v-model="query" />
+      <router-link to="/new/site">Create</router-link>
     </div>
     <ul>
       <li v-for="site in visibleSites">
@@ -21,7 +22,7 @@ import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { Site } from "@webserver/core";
 import Logo from "@/components/Logo.vue";
-import { useSites, linkToSite } from "@/shared/site";
+import { useSites, linkToSite } from "@/shared/sites";
 import { search } from "@/shared/search";
 
 ref: query = "";
@@ -41,16 +42,32 @@ header {
 }
 
 .search {
+  align-items: center;
   display: flex;
   background-color: #fff;
-  flex-direction: column;
   padding: 10px;
   position: sticky;
   top: 0;
 }
 
-input[type="search"] {
-  --border-color: var(--background-color);
+.search input[type="search"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.search a {
+  font-weight: bold;
+  line-height: var(--input-height);
+  margin-left: 5px;
+  overflow: hidden;
+  padding: 0 10px;
+  transition: all 0.2s ease;
+}
+
+.search input[type="search"]:focus + a {
+  margin-left: 0;
+  padding: 0;
+  width: 0;
 }
 
 ul,
@@ -73,7 +90,7 @@ li a {
   padding: 0 10px;
   height: 40px;
   text-decoration: none;
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 li a:hover {

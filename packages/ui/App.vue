@@ -9,6 +9,9 @@
 
 <script lang="ts" setup>
 import SiteList from "@/components/SiteList/index.vue";
+import { provideSites } from "./shared/sites";
+
+provideSites();
 </script>
 
 <style scoped>
