@@ -3,8 +3,14 @@
     <header>{{ t("dangerZone.title") }}</header>
     <form @submit.prevent="removeSite">
       <template v-if="acquiringRemoval">
-        <input ref="confirmInput" :placeholder="t('dangerZone.confirmPlaceholder', { name })" v-model="confirmName" />
-        <button type="submit" class="danger" :disabled="confirmName !== name">{{ t("dangerZone.confirm") }}</button>
+        <input
+          ref="confirmInput"
+          :placeholder="t('dangerZone.confirmPlaceholder', { name: site.name })"
+          v-model="confirmName"
+        />
+        <button type="submit" class="danger" :disabled="confirmName !== site.name">
+          {{ t("dangerZone.confirm") }}
+        </button>
         <button type="button" @click="acquiringRemoval = false">{{ t("dangerZone.cancel") }}</button>
       </template>
       <template v-else>
@@ -15,15 +21,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { nextTick, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useSites } from "@/shared/sites";
+import { useSelectedSite, useSites } from "@/shared/sites";
 
 ref: router = useRouter();
-ref: route = useRoute();
 ref: ({ t } = useI18n());
-ref: name = computed(() => route.params.name as string);
+ref: site = useSelectedSite();
 ref: confirmName = "";
 ref: confirmInput = ref<HTMLInputElement>();
 ref: acquiringRemoval = false;
@@ -35,8 +40,8 @@ watch($acquiringRemoval, (value) => {
 });
 
 const removeSite = () => {
-  if (confirmName === name) {
-    sites.removeSite(name);
+  if (confirmName === site.name) {
+    sites.removeSite(site.name);
     router.push("/");
   }
 };
