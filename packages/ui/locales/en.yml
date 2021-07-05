@@ -5,6 +5,7 @@ guide:
   begin: "Select a site, or "
   create: create a new one
   end: "."
+  beian: ""
 createSite:
   title: Create site
   siteName: Site name
