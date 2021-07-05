@@ -13,6 +13,7 @@
     <label>网站根目录</label>
     <button type="button" @click="chooseWebRoot">选择根目录</button>
     <div v-if="webRoot" class="tip">已选择根目录 {{ webRoot }}</div>
+    <div class="tip"><a href="https://beian.miit.gov.cn" target="_blank">沪ICP备13033049号</a></div>
   </form>
 </template>
 
