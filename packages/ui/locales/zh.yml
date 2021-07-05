@@ -5,6 +5,7 @@ guide:
   begin: 选择站点，或者
   create: 创建新站点
   end: 。
+  beian: <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer nofollow">沪ICP备13033049号</a>
 createSite:
   title: 创建站点
   siteName: 站点名称

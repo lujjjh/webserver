@@ -9,6 +9,9 @@
       {{ t("guide.begin") }}<router-link to="/new/site">{{ t("guide.create") }}</router-link
       >{{ t("guide.end") }}
     </h3>
+    <footer>
+      <div v-html="t('guide.beian')" />
+    </footer>
   </div>
 </template>
 
@@ -25,10 +28,20 @@ ref: ({ t } = useI18n());
   flex-direction: column;
   height: 100vh;
   justify-content: center;
+  position: relative;
   user-select: contain;
 }
 
 svg {
   opacity: 0.1;
+}
+
+footer {
+  padding: 10px 20px;
+  bottom: 0;
+  font-size: 13px;
+  right: 0;
+  opacity: 0.8;
+  position: absolute;
 }
 </style>
