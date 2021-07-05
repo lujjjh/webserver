@@ -88,6 +88,10 @@ button:hover {
   --text-color: var(--primary-color);
 }
 
+button:active {
+  --primary-color: var(--primary-color-active);
+}
+
 button:not([type]),
 button[type="submit"] {
   background-color: var(--primary-color);
@@ -193,4 +197,18 @@ form .error {
 pre,
 code {
   font-family: var(--monospace-font-family);
+}
+
+table,
+tr,
+th,
+td {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+th,
+td {
+  padding: 5px 10px;
 }
