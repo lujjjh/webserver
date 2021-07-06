@@ -1,5 +1,7 @@
 /// <reference lib="webworker" />
 
+import { Client } from "@webserver/core";
+
 declare const self: ServiceWorkerGlobalScope;
 export type {};
 
@@ -11,101 +13,46 @@ self.addEventListener("activate", async (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-const withTimeout = <T>(promise: Promise<T>, timeout: number, error: Error) =>
-  Promise.race([promise, new Promise<never>((_, reject) => setTimeout(() => void reject(error), timeout))]);
+class ServerNotFoundError extends Error {
+  constructor() {
+    super("server not found");
+  }
+}
 
-const roundTrip = async (data: any) => {
-  const clients = await self.clients.matchAll({ type: "window" });
-  const client = clients.find(
+let _client: Client | undefined;
+const getClient = async () => {
+  if (_client) {
+    try {
+      await _client.ping();
+      return _client;
+    } catch {
+      _client = undefined;
+    }
+  }
+  const { port1, port2 } = new MessageChannel();
+  const serviceWorkerClients = await self.clients.matchAll({ type: "window" });
+  const serviceWorkerClient = serviceWorkerClients.find(
     ({ url, frameType }) => new URL(url).pathname === "/@@server@relay.html" && frameType === "nested"
   );
-  if (!client) throw new Error("failed to find to the server");
-  const { port1, port2 } = new MessageChannel();
-  return new Promise<MessageEvent>((resolve) => {
-    port1.addEventListener("message", (event) => {
-      resolve(event);
-      port1.close();
-    });
-    port1.start();
-    client.postMessage(data, [port2]);
-  });
+  if (!serviceWorkerClient) throw new ServerNotFoundError();
+  serviceWorkerClient.postMessage(null, [port1]);
+  return (_client = new Client(port2, self.origin));
 };
 
-const getPort = async () => {
-  const {
-    ports: [port],
-  } = await roundTrip("connect");
-  if (!port) {
-    throw new Error("expected port");
-  }
-  return port;
-};
-
-const readFile = async (pathname: string) => {
-  const port = await withTimeout(getPort(), 500, new Error("getPort timed out"));
-  const { port1, port2 } = new MessageChannel();
-  port.postMessage({ pathname }, [port2]);
-  let resolve: (data: ArrayBuffer | null) => void;
-  port1.onmessage = ({ data }) => {
-    if (!data) {
-      resolve(null);
-    } else {
-      resolve(data);
-    }
-  };
-  return withTimeout(
-    new Promise<ArrayBuffer | null>((_resolve) => void (resolve = _resolve)),
-    1000,
-    new Error("read timeout")
-  );
-};
-
-const mimeTypeFromPathname = (pathname: string) => {
-  let [ext] = /(\.[^./]+)?$/.exec(pathname)!;
-  ext = ext.toLowerCase();
-  switch (ext) {
-    case ".css":
-      return "text/css";
-    case ".html":
-      return "text/html";
-    case ".js":
-      return "text/javascript";
-    default:
-      return "application/octet-stream";
-  }
-};
-
-self.addEventListener("fetch", (event) => {
+self.addEventListener("fetch", async (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.origin) {
     return;
   }
   const { pathname } = url;
-  if (url.pathname.startsWith("/@@server")) {
+  if (pathname.startsWith("/@@server")) {
     return;
   }
-  event.respondWith(
-    (async () => {
-      let actualPathname;
-      let buffer;
-      for (const _pathname of [pathname, pathname + "/index.html"]) {
-        try {
-          buffer = await readFile(_pathname);
-        } catch (error) {
-          console.error(error);
-          return new Response(new Blob([error.message]), { status: 500 });
-        }
-        if (buffer) {
-          actualPathname = _pathname;
-          break;
-        }
-      }
-      if (!(buffer && actualPathname)) {
-        return new Response(new Blob(["Not found"]), { status: 404 });
-      }
-      const headers = new Headers();
-      headers.set("content-type", mimeTypeFromPathname(actualPathname));
-      return new Response(buffer, { headers });
-    })()
-  );
+  try {
+    const client = await getClient();
+    const config = await client.requestConfig();
+    console.log(config);
+  } catch (error) {
+    console.error(error);
+  }
 });

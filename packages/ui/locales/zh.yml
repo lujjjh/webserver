@@ -16,6 +16,7 @@ createSite:
   duplicatedNameError: 该站点名称已被占用。
   create: 创建
 site:
+  notFound: 无法找到该站点。
   overview: 概览
   settings: 设置
 dangerZone:

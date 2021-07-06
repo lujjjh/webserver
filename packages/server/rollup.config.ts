@@ -1,9 +1,27 @@
-import { defineConfig, Plugin } from "rollup";
+import path from "path";
+import { defineConfig, Plugin, RollupWarning } from "rollup";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import replace from "@rollup/plugin-replace";
 import html from "@rollup/plugin-html";
 import { terser } from "rollup-plugin-terser";
 import serve from "rollup-plugin-serve";
+
+const commonPlugins = [
+  nodeResolve({
+    browser: true,
+    rootDir: path.resolve(__dirname, "../../"),
+    dedupe: ["@webserver/core"],
+    modulesOnly: true,
+  }),
+  typescript(),
+  terser(),
+];
+
+const onwarn = (warning: RollupWarning) => {
+  if (warning.code === "THIS_IS_UNDEFINED") return;
+  console.warn(warning.message);
+};
 
 const bundleName = (callback: (fileName: string) => void): Plugin => ({
   name: "bundleName",
@@ -23,6 +41,7 @@ let swFilename = "";
 
 export default defineConfig([
   {
+    onwarn,
     input: "@@server@sw.ts",
     output: {
       dir: "dist",
@@ -33,9 +52,10 @@ export default defineConfig([
     watch: {
       clearScreen: false,
     },
-    plugins: [typescript(), terser(), bundleName((fileName) => void (swFilename = fileName))],
+    plugins: [...commonPlugins, bundleName((fileName) => void (swFilename = fileName))],
   },
   {
+    onwarn,
     input: "@@server@relay.ts",
     output: {
       dir: "dist",
@@ -47,7 +67,7 @@ export default defineConfig([
       clearScreen: false,
     },
     plugins: [
-      typescript(),
+      ...commonPlugins,
       replace({
         preventAssignment: true,
         values: {
@@ -56,6 +76,7 @@ export default defineConfig([
       }),
       html({
         fileName: "@@server@relay.html",
+        publicPath: "/",
         title: "",
       }),
       terser(),

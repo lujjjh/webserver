@@ -16,6 +16,7 @@ createSite:
   duplicatedNameError: This site name has already been taken.
   create: Create
 site:
+  notFound: Site not found.
   overview: Overview
   settings: Settings
 dangerZone:
