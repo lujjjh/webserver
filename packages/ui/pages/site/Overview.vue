@@ -44,4 +44,8 @@ th {
   font-weight: bold;
   text-align: right;
 }
+
+th:not(:empty)::after {
+  content: ":";
+}
 </style>

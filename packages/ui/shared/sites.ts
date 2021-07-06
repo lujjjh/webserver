@@ -1,26 +1,24 @@
-import { inject, provide, Ref } from "vue";
+import { computed, inject, provide, Ref } from "vue";
 import { useRoute } from "vue-router";
 import { useLocalStorage } from "@vueuse/core";
 import { Site, Sites, SitesSerializer } from "@webserver/core";
 
-const SITES_KEY = Symbol();
+const sitesKey = Symbol.for("sites");
+const selectedSiteKey = Symbol.for("selectedSite");
 
 export const provideSites = () =>
-  provide(SITES_KEY, useLocalStorage("sites", Sites.defaults(), { serializer: new SitesSerializer() }));
+  provide(sitesKey, useLocalStorage("sites", Sites.defaults(), { serializer: new SitesSerializer() }));
 
-export const useSites = () => inject<Ref<Sites>>(SITES_KEY)!;
+export const useSites = () => inject<Ref<Sites>>(sitesKey)!;
 
 export const linkToSite = ({ name }: Site) => `/sites/${name}`;
 
-export const useSelectedSite = () => {
-  const {
-    params: { name },
-  } = useRoute();
-  if (typeof name !== "string") throw new Error("useSelectedSite can only used in /sites/:name/*");
+export const provideSelectedSite = () => {
   const sites = useSites();
-  const site = sites.value.find((site) => site.name === name);
-  if (!site) {
-    throw new Error(`site ${name} not found`);
-  }
+  const route = useRoute();
+  const site = computed(() => sites.value.find((site) => site.name === route.params.name));
+  provide(selectedSiteKey, site);
   return site;
 };
+
+export const useSelectedSite = () => inject<Ref<Site>>(selectedSiteKey);

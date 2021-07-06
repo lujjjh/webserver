@@ -41,7 +41,11 @@ footer {
   bottom: 0;
   font-size: 13px;
   right: 0;
-  opacity: 0.8;
+  opacity: 0.5;
   position: absolute;
+}
+
+footer /deep/ a {
+  color: var(--text-color);
 }
 </style>

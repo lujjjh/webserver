@@ -52,7 +52,7 @@ export class Sites extends Array<Site> {
     name = name.trim().toLowerCase();
     this.checkSiteName(name);
     this.push({
-      configuration: {
+      config: {
         routes: [],
       },
       ...site,
@@ -65,5 +65,11 @@ export class Sites extends Array<Site> {
     if (index === -1) return false;
     this.splice(index, 1);
     return true;
+  }
+
+  getSiteConfig(name: string) {
+    const site = this.find((site) => site.name === name);
+    if (!site) return null;
+    return site.config;
   }
 }
