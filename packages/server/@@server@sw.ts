@@ -39,20 +39,29 @@ const getClient = async () => {
   return (_client = new Client(port2, self.origin));
 };
 
+const shouldHandleRequest = (request: Request) => {
+  const isInternalURL = (url: URL | string) => {
+    if (typeof url === "string") {
+      try {
+        url = new URL(url);
+      } catch {
+        return false;
+      }
+    }
+    const internalPrefix = "/@@server";
+    return url.origin == self.origin && url.pathname.startsWith(internalPrefix);
+  };
+  return isInternalURL(request.url) || isInternalURL(request.referrer);
+};
+
 self.addEventListener("fetch", async (event) => {
-  const url = new URL(event.request.url);
-  if (url.origin !== self.origin) {
-    return;
-  }
-  const { pathname } = url;
-  if (pathname.startsWith("/@@server")) {
-    return;
-  }
-  try {
-    const client = await getClient();
-    const config = await client.requestConfig();
-    console.log(config);
-  } catch (error) {
-    console.error(error);
-  }
+  if (!shouldHandleRequest(event.request))
+    try {
+      const client = await getClient();
+      const config = await client.requestConfig();
+      console.log(config);
+    } catch (error) {
+      console.log(event.request.url, event.request.referrer);
+      console.error(error);
+    }
 });
