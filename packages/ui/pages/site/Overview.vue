@@ -18,7 +18,7 @@
           <tr>
             <th>Routes</th>
             <td>
-              <router-link :to="`/sites/${site.name}/routes`">{{ site.configuration.routes.length }}</router-link>
+              <router-link :to="`/sites/${site.name}/routes`">{{ site.config.routes.length }}</router-link>
             </td>
           </tr>
           <tr>
@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { useSelectedSite } from "@/shared/sites";
 
-ref: site = useSelectedSite();
+ref: site = useSelectedSite()!;
 </script>
 
 <style scoped>

@@ -6,9 +6,9 @@ import sw from "./@@server@sw?sw";
   navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
 
   if (window.parent !== window) {
-    navigator.serviceWorker.addEventListener("message", async ({ data, ports: [port] }) => {
+    navigator.serviceWorker.addEventListener("message", async ({ ports: [port] }) => {
       if (!port) return;
-      window.parent.postMessage(data, "*", [port]);
+      window.parent.postMessage(null, "*", [port]);
     });
   }
 })();
