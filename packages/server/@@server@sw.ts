@@ -5,6 +5,8 @@ import { Client } from "@webserver/core";
 declare const self: ServiceWorkerGlobalScope;
 export type {};
 
+const relayPath = "/@@server@relay.html";
+
 self.addEventListener("install", () => {
   self.skipWaiting();
 });
@@ -19,49 +21,36 @@ class ServerNotFoundError extends Error {
   }
 }
 
-let _client: Client | undefined;
-const getClient = async () => {
-  if (_client) {
-    try {
-      await _client.ping();
-      return _client;
-    } catch {
-      _client = undefined;
-    }
-  }
-  const { port1, port2 } = new MessageChannel();
-  const serviceWorkerClients = await self.clients.matchAll({ type: "window" });
-  const serviceWorkerClient = serviceWorkerClients.find(
-    ({ url, frameType }) => new URL(url).pathname === "/@@server@relay.html" && frameType === "nested"
+const relayClientDo = async <T>(f: (client: Client) => T) => {
+  const clients = (await self.clients.matchAll({ type: "window", includeUncontrolled: true })).filter(
+    ({ url, frameType }) => new URL(url).pathname === relayPath && frameType === "nested"
   );
-  if (!serviceWorkerClient) throw new ServerNotFoundError();
-  serviceWorkerClient.postMessage(null, [port1]);
-  return (_client = new Client(port2, self.origin));
+  if (!clients.length) throw new ServerNotFoundError();
+  return Promise.race(
+    clients.map((client) => {
+      const { port1, port2 } = new MessageChannel();
+      client.postMessage(null, [port2]);
+      return f(new Client(port1));
+    })
+  );
 };
 
-const shouldHandleRequest = (request: Request) => {
-  const isInternalURL = (url: URL | string) => {
-    if (typeof url === "string") {
-      try {
-        url = new URL(url);
-      } catch {
-        return false;
-      }
-    }
-    const internalPrefix = "/@@server";
-    return url.origin == self.origin && url.pathname.startsWith(internalPrefix);
-  };
-  return isInternalURL(request.url) || isInternalURL(request.referrer);
+const request = (request: Request) => relayClientDo((client) => client.request(request));
+
+const shouldHandleRequest = async ({ clientId, request }: FetchEvent) => {
+  const url = new URL(request.url);
+  if (url.origin !== self.origin) return false;
+  if (url.pathname === relayPath) return false;
+  const client = await self.clients.get(clientId);
+  if (!client) return true;
+  return new URL(client.url).pathname !== relayPath;
 };
 
-self.addEventListener("fetch", async (event) => {
-  if (!shouldHandleRequest(event.request))
-    try {
-      const client = await getClient();
-      const config = await client.requestConfig();
-      console.log(config);
-    } catch (error) {
-      console.log(event.request.url, event.request.referrer);
-      console.error(error);
-    }
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    (async () => {
+      if (await shouldHandleRequest(event)) return request(event.request);
+      return fetch(event.request);
+    })()
+  );
 });

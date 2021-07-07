@@ -15,10 +15,8 @@ import { Server } from "@webserver/core";
 
 provideSites();
 
-let server: Server;
 addEventListener("message", ({ ports: [port] }) => {
-  if (server) server.dispose();
-  server = new Server(port, {
+  new Server(port, {
     name: "localhost",
     config: {
       routes: [],
