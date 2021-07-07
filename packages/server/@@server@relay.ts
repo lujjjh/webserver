@@ -1,10 +1,8 @@
-(async () => {
-  await navigator.serviceWorker.register("/" + process.env.SW_FILENAME);
-  if (!navigator.serviceWorker.controller) {
-    window.location.reload();
-    return;
-  }
+import sw from "./@@server@sw?sw";
 
+(async () => {
+  await navigator.serviceWorker.register(sw);
+  await navigator.serviceWorker.ready;
   navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
 
   if (window.parent !== window) {
