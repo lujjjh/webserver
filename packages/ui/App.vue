@@ -5,24 +5,15 @@
       <router-view />
     </main>
   </div>
-  <iframe src="https://localhost.webserver.test:4001/@@server@relay.html"></iframe>
+  <site-servers />
 </template>
 
 <script lang="ts" setup>
 import SiteList from "@/components/SiteList/index.vue";
 import { provideSites } from "./shared/sites";
-import { Server } from "@webserver/core";
+import SiteServers from "@/components/SiteServers.vue";
 
 provideSites();
-
-addEventListener("message", ({ ports: [port] }) => {
-  new Server(port, {
-    name: "localhost",
-    config: {
-      routes: [],
-    },
-  });
-});
 </script>
 
 <style scoped>
