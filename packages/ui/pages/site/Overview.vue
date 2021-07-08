@@ -4,11 +4,11 @@
       <table>
         <tbody>
           <tr>
-            <th>{{ t("overview.status") }}</th>
-            <td>{{ t("status.running") }}</td>
+            <th>{{ t("overview.label.status") }}</th>
+            <td>{{ t("overview.status.running") }}</td>
           </tr>
           <tr>
-            <th>{{ t("overview.endpoint") }}</th>
+            <th>{{ t("overview.label.endpoint") }}</th>
             <td>
               <a :href="endpoint" target="_blank" rel="noopener noreferrer nofollow">{{ endpoint }}</a>
             </td>

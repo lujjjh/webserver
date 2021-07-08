@@ -17,13 +17,15 @@ createSite:
   create: 创建
 site:
   notFound: 无法找到该站点。
-  overview: 概览
-  settings: 设置
+  nav:
+    overview: 概览
+    settings: 设置
 overview:
-  status: 状态
-  endpoint: 网址
-status:
-  running: 运行中
+  label:
+    status: 状态
+    endpoint: 网址
+  status:
+    running: 运行中
 dangerZone:
   title: 危险区
   removeSite: 移除该站点
