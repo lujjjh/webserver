@@ -23,7 +23,7 @@ class ServerNotFoundError extends Error {
 
 const relayClientDo = async <T>(f: (client: Client) => T) => {
   const clients = (await self.clients.matchAll({ type: "window", includeUncontrolled: true })).filter(
-    ({ url, frameType }) => new URL(url).pathname === relayPath && frameType === "nested"
+    ({ url }) => new URL(url).pathname === relayPath
   );
   if (!clients.length) throw new ServerNotFoundError();
   return Promise.race(

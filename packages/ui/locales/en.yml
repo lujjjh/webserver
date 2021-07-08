@@ -19,6 +19,11 @@ site:
   notFound: Site not found.
   overview: Overview
   settings: Settings
+overview:
+  status: Status
+  endpoint: URL
+status:
+  running: Running
 dangerZone:
   title: Danger zone
   removeSite: Remove this site

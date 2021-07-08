@@ -1,22 +1,22 @@
 import { Site } from "../entity";
 import { ClientMessage, requestMessageToRequest, ResponseMessage, responseToResponseMessage } from "./message";
 
-const pendingServers = new Set<Server>();
+const pendingConnections = new Set<Connection>();
 
-export class Server {
+export class Connection {
   private timer;
 
-  constructor(private port: MessagePort, private site: Site) {
+  constructor(private server: Server, private port: MessagePort) {
     port.addEventListener("message", this.onMessage);
     port.start();
-    pendingServers.add(this);
+    pendingConnections.add(this);
     this.timer = setTimeout(() => void this.dispose(), 1000);
   }
 
   dispose() {
-    if (pendingServers.has(this)) {
+    if (pendingConnections.has(this)) {
       clearTimeout(this.timer);
-      pendingServers.delete(this);
+      pendingConnections.delete(this);
       const { port } = this;
       port.close();
       port.removeEventListener("message", this.onMessage);
@@ -26,7 +26,7 @@ export class Server {
   onMessage = async ({ data, ports: [port] }: MessageEvent) => {
     this.dispose();
 
-    const { site } = this;
+    const { site } = this.server;
     if (!port) {
       console.warn("missing port");
       return;
@@ -54,5 +54,18 @@ export class Server {
         const type: never = message.type;
         console.warn(`unexpected message type: ${type}`);
     }
+  };
+}
+
+export class Server {
+  constructor(public readonly site: Site) {}
+
+  connect = ({ origin, ports: [port] }: MessageEvent) => {
+    const { hostname } = new URL(origin);
+    const matchedName = hostname.replace(/\..+/, "");
+    if (matchedName !== this.site.name) {
+      return;
+    }
+    new Connection(this, port);
   };
 }
