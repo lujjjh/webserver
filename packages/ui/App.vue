@@ -5,7 +5,7 @@
       <router-view />
     </main>
   </div>
-  <iframe src="http://localhost:4001/@@server@relay.html"></iframe>
+  <iframe src="https://localhost.webserver.test:4001/@@server@relay.html"></iframe>
 </template>
 
 <script lang="ts" setup>

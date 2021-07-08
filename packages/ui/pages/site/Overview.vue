@@ -10,9 +10,7 @@
           <tr>
             <th>Endpoint</th>
             <td>
-              <a href="https://localhost.webserver.run" target="_blank" rel="noopener noreferrer nofollow"
-                >https://localhost.webserver.run</a
-              >
+              <a :href="endpoint" target="_blank" rel="noopener noreferrer nofollow">{{ endpoint }}</a>
             </td>
           </tr>
           <tr>
@@ -34,9 +32,13 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from "vue";
 import { useSelectedSite } from "@/shared/sites";
+import { webserverPubSuffix } from "@/env";
 
-ref: site = useSelectedSite()!;
+ref: site = useSelectedSite();
+
+ref: endpoint = computed(() => `https://${site.name}${webserverPubSuffix}`);
 </script>
 
 <style scoped>

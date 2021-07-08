@@ -21,4 +21,4 @@ export const provideSelectedSite = () => {
   return site;
 };
 
-export const useSelectedSite = () => inject<Ref<Site>>(selectedSiteKey);
+export const useSelectedSite = () => inject<Ref<Site>>(selectedSiteKey)!;
