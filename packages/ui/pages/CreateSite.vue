@@ -21,7 +21,7 @@
         <div
           v-else-if="name"
           class="tip domain-preview"
-          v-html="t('createSite.siteNameTipServe', { prefix: name, suffix: '.webserver.run' })"
+          v-html="t('createSite.siteNameTipServe', { prefix: name, suffix: webserverPubSuffix })"
         />
         <div v-else class="tip">{{ t("createSite.siteNameTip") }}</div>
         <button :disabled="!canSubmit">{{ t("createSite.create") }}</button>
@@ -37,6 +37,7 @@ import { useI18n } from "vue-i18n";
 import { useAutoFocus } from "@/shared/autofocus";
 import { useSites } from "@/shared/sites";
 import { sitePattern } from "@webserver/core";
+import { webserverPubSuffix } from "@/env";
 
 ref: router = useRouter();
 ref: ({ t } = useI18n());

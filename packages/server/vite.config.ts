@@ -5,6 +5,10 @@ export default defineConfig({
   server: {
     port: 4001,
     strictPort: true,
+    https: {
+      cert: "server.crt",
+      key: "server.key",
+    },
   },
   build: {
     assetsDir: ".",

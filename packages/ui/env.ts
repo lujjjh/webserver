@@ -1,7 +1,7 @@
 declare global {
   interface ImportMetaEnv {
-    VITE_LOCALHOST_ORIGIN: string;
+    VITE_WEBSERVER_PUB_SUFFIX: string;
   }
 }
 
-export const localhostOrigin = import.meta.env.VITE_LOCALHOST_ORIGIN;
+export const webserverPubSuffix = import.meta.env.VITE_WEBSERVER_PUB_SUFFIX;
