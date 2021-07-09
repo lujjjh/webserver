@@ -1,12 +1,12 @@
 <template>
   <div class="content-wrapper center">
     <div class="card">
-      <header>{{ t("createSite.title") }}</header>
+      <header>{{ $t("createSite.title") }}</header>
       <form ref="form" @submit.prevent="createSite">
-        <label for="name">{{ t("createSite.siteName") }}</label>
+        <label for="name">{{ $t("createSite.siteName") }}</label>
         <input
           id="name"
-          :placeholder="t('createSite.siteNamePlaceholder')"
+          :placeholder="$t('createSite.siteNamePlaceholder')"
           autofocus
           v-model.trim="name"
           maxlength="64"
@@ -17,14 +17,14 @@
           autocorrect="off"
           @input="checkSiteName"
         />
-        <div v-if="error" class="tip error">{{ t(error.message) }}</div>
+        <div v-if="error" class="tip error">{{ $t(error.message) }}</div>
         <div
           v-else-if="name"
           class="tip domain-preview"
-          v-html="t('createSite.siteNameTipServe', { prefix: name, suffix: webserverPubSuffix })"
+          v-html="$t('createSite.siteNameTipServe', { prefix: name, suffix: webserverPubSuffix })"
         />
-        <div v-else class="tip">{{ t("createSite.siteNameTip") }}</div>
-        <button :disabled="!canSubmit">{{ t("createSite.create") }}</button>
+        <div v-else class="tip">{{ $t("createSite.siteNameTip") }}</div>
+        <button :disabled="!canSubmit">{{ $t("createSite.create") }}</button>
       </form>
     </div>
   </div>
@@ -33,14 +33,12 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import { useAutoFocus } from "@/shared/autofocus";
 import { useSites } from "@/shared/sites";
 import { sitePattern } from "@webserver/core";
 import { webserverPubSuffix } from "@/env";
 
 ref: router = useRouter();
-ref: ({ t } = useI18n());
 ref: form = ref<HTMLFormElement>();
 ref: name = "";
 ref: error = ref<Error>();

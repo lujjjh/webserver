@@ -6,20 +6,14 @@
       />
     </svg>
     <h3>
-      {{ t("guide.begin") }}<router-link to="/new/site">{{ t("guide.create") }}</router-link
-      >{{ t("guide.end") }}
+      {{ $t("guide.begin") }}<router-link to="/new/site">{{ $t("guide.create") }}</router-link
+      >{{ $t("guide.end") }}
     </h3>
     <footer>
-      <div v-html="t('guide.beian')" />
+      <div v-html="$t('guide.beian')" />
     </footer>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { useI18n } from "vue-i18n";
-
-ref: ({ t } = useI18n());
-</script>
 
 <style scoped>
 .guide {
@@ -45,7 +39,7 @@ footer {
   position: absolute;
 }
 
-footer /deep/ a {
+footer :deep(a) {
   color: var(--text-color);
 }
 </style>

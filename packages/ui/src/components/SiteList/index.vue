@@ -6,8 +6,8 @@
       </router-link>
     </header>
     <div class="search">
-      <input type="search" :placeholder="t('siteList.searchSites')" v-model="query" />
-      <router-link to="/new/site">{{ t("siteList.create") }}</router-link>
+      <input type="search" :placeholder="$t('siteList.searchSites')" v-model="query" />
+      <router-link to="/new/site">{{ $t("siteList.create") }}</router-link>
     </div>
     <ul>
       <li v-for="site in visibleSites">
@@ -20,13 +20,11 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
-import { useI18n } from "vue-i18n";
 import { Site } from "@webserver/core";
 import Logo from "@/components/Logo.vue";
 import { useSites, linkToSite } from "@/shared/sites";
 import { search } from "@/shared/search";
 
-ref: ({ t } = useI18n());
 ref: query = "";
 ref: sites = useSites();
 ref: visibleSites = computed(() => search<Site>(sites, ({ name }) => name, query));

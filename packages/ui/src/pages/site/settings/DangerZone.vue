@@ -1,20 +1,20 @@
 <template>
   <div class="card">
-    <header>{{ t("dangerZone.title") }}</header>
+    <header>{{ $t("dangerZone.title") }}</header>
     <form @submit.prevent="removeSite">
       <template v-if="acquiringRemoval">
         <input
           ref="confirmInput"
-          :placeholder="t('dangerZone.confirmPlaceholder', { name: site.name })"
+          :placeholder="$t('dangerZone.confirmPlaceholder', { name: site.name })"
           v-model="confirmName"
         />
         <button type="submit" class="danger" :disabled="confirmName !== site.name">
-          {{ t("dangerZone.confirm") }}
+          {{ $t("dangerZone.confirm") }}
         </button>
-        <button type="button" @click="acquiringRemoval = false">{{ t("dangerZone.cancel") }}</button>
+        <button type="button" @click="acquiringRemoval = false">{{ $t("dangerZone.cancel") }}</button>
       </template>
       <template v-else>
-        <button type="button" class="danger" @click="acquiringRemoval = true">{{ t("dangerZone.removeSite") }}</button>
+        <button type="button" class="danger" @click="acquiringRemoval = true">{{ $t("dangerZone.removeSite") }}</button>
       </template>
     </form>
   </div>
@@ -23,11 +23,9 @@
 <script lang="ts" setup>
 import { nextTick, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import { useSelectedSite, useSites } from "@/shared/sites";
 
 ref: router = useRouter();
-ref: ({ t } = useI18n());
 ref: site = useSelectedSite();
 ref: confirmName = "";
 ref: confirmInput = ref<HTMLInputElement>();
