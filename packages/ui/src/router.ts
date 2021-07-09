@@ -3,6 +3,7 @@ import Guide from "@/pages/Guide.vue";
 import CreateSite from "@/pages/CreateSite.vue";
 import Site from "@/pages/Site.vue";
 import Overview from "@/pages/site/Overview.vue";
+import Routing from "@/pages/site/routing/index.vue";
 import Settings from "@/pages/site/settings/index.vue";
 
 const router = createRouter({
@@ -15,6 +16,7 @@ const router = createRouter({
       component: Site,
       children: [
         { path: "", component: Overview },
+        { path: "routing", component: Routing },
         { path: "settings", component: Settings },
       ],
     },

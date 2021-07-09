@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "npm run build -- --watch",
-    "build": "tsup index.ts --dts --sourcemap --format esm"
+    "build": "tsup src/index.ts --dts --sourcemap --format esm"
   },
   "devDependencies": {
     "tsup": "^4.12.3",

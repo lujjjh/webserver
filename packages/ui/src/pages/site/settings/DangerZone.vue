@@ -53,7 +53,7 @@ form {
 }
 
 form > * {
-  margin-right: 10px;
+  margin: 0 10px 0 0;
 }
 
 input {

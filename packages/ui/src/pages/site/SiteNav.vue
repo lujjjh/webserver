@@ -6,8 +6,9 @@
       </header>
     </div>
     <ol>
-      <li><router-link :to="`/sites/${site.name}`" :data-content="t('site.nav.overview')" /></li>
-      <li><router-link :to="`/sites/${site.name}/settings`" :data-content="t('site.nav.settings')" /></li>
+      <li><router-link :to="`/sites/${site.name}`" :data-content="t('siteNav.overview')" /></li>
+      <li><router-link :to="`/sites/${site.name}/routing`" :data-content="t('siteNav.routing')" /></li>
+      <li><router-link :to="`/sites/${site.name}/settings`" :data-content="t('siteNav.settings')" /></li>
     </ol>
   </nav>
 </template>
