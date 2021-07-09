@@ -30,6 +30,7 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                   },
                   path: { type: "string" },
                 },
+                required: ["methods", "path"],
               },
               {
                 oneOf: [{ $ref: "#/definitions/StaticResponseRoute" }, { $ref: "#/definitions/ProxyRoute" }],
@@ -41,9 +42,9 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
             properties: {
               type: { const: "static" },
               body: { type: "string" },
-              contentType: { type: "string" },
+              headers: { type: "object", additionalProperties: { type: "string" } },
             },
-            required: ["type", "body", "contentType"],
+            required: ["type", "body"],
           },
           ProxyRoute: {
             type: "object",
