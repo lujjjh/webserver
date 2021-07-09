@@ -14,6 +14,9 @@ createSite:
   siteNameTipServe: 该站点将被服务于 <code><em>%{prefix}</em>%{suffix}</code>。
   invalidNameError: 站点名称应当是合法的域名前缀。
   duplicatedNameError: 该站点名称已被占用。
+  target: 代理目标
+  targetPlaceholder: 例如 http://localhost:3000
+  targetTip: 代理到你的本地服务器。必须设置 CORS 来允许从 webserver 域名发起 fetch。
   create: 创建
 site:
   notFound: 无法找到该站点。
