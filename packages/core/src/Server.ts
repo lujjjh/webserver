@@ -24,7 +24,11 @@ export class Server {
     const { route } = match;
     switch (route.type) {
       case "static":
-        return new Response(route.body, { status: 200, statusText: "OK" });
+        return new Response(route.body, {
+          status: 200,
+          statusText: "OK",
+          headers: route.headers,
+        });
       case "proxy": {
         const requestURL = new URL(request.url);
         if (requestURL.pathname === "/__vite_ping") {

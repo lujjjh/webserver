@@ -8,11 +8,15 @@ const Common = t.intersection([
   }),
 ]);
 
-const StaticResponseRoute = t.type({
-  type: t.literal("static"),
-  body: t.string,
-  contentType: t.string,
-});
+const StaticResponseRoute = t.intersection([
+  t.type({
+    type: t.literal("static"),
+    body: t.string,
+  }),
+  t.partial({
+    headers: t.record(t.string, t.string),
+  }),
+]);
 
 const ProxyRoute = t.type({
   type: t.literal("proxy"),

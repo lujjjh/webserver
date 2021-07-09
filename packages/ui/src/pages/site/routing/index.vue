@@ -25,6 +25,8 @@ onMounted(() => {
   const editor = monaco.editor.create(editorContainer!, {
     model,
     automaticLayout: true,
+    fontSize: 13,
+    lineHeight: 22,
   });
   editor.onDidChangeModelContent(() => {
     try {
