@@ -4,11 +4,11 @@
       <table>
         <tbody>
           <tr>
-            <th>{{ t("overview.label.status") }}</th>
-            <td>{{ t("overview.status.running") }}</td>
+            <th>{{ $t("overview.label.status") }}</th>
+            <td>{{ $t("overview.status.running") }}</td>
           </tr>
           <tr>
-            <th>{{ t("overview.label.endpoint") }}</th>
+            <th>{{ $t("overview.label.endpoint") }}</th>
             <td>
               <a :href="endpoint" target="_blank" rel="noopener noreferrer nofollow">{{ endpoint }}</a>
             </td>
@@ -21,11 +21,8 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import { useSelectedSite } from "@/shared/sites";
 import { webserverPubSuffix } from "@/env";
-
-ref: ({ t } = useI18n());
 
 ref: site = useSelectedSite();
 ref: endpoint = computed(() => `https://${site.name}${webserverPubSuffix}`);

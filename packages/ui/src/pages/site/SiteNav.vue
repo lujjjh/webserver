@@ -6,18 +6,16 @@
       </header>
     </div>
     <ol>
-      <li><router-link :to="`/sites/${site.name}`" :data-content="t('siteNav.overview')" /></li>
-      <li><router-link :to="`/sites/${site.name}/routing`" :data-content="t('siteNav.routing')" /></li>
-      <li><router-link :to="`/sites/${site.name}/settings`" :data-content="t('siteNav.settings')" /></li>
+      <li><router-link :to="`/sites/${site.name}`" :data-content="$t('siteNav.overview')" /></li>
+      <li><router-link :to="`/sites/${site.name}/routing`" :data-content="$t('siteNav.routing')" /></li>
+      <li><router-link :to="`/sites/${site.name}/settings`" :data-content="$t('siteNav.settings')" /></li>
     </ol>
   </nav>
 </template>
 
 <script lang="ts" setup>
-import { useI18n } from "vue-i18n";
 import { useSelectedSite } from "@/shared/sites";
 
-ref: ({ t } = useI18n());
 ref: site = useSelectedSite();
 </script>
 
