@@ -14,6 +14,9 @@ createSite:
   siteNameTipServe: This site will be served at <code><em>%{prefix}</em>%{suffix}</code>.
   invalidNameError: Site name should be a valid domain prefix.
   duplicatedNameError: This site name has already been taken.
+  target: Proxy target
+  targetPlaceholder: e.g. http://localhost:3000
+  targetTip: Proxy to your local server. CORS must be set to allow fetch from webserver domain.
   create: Create
 site:
   notFound: Site not found.

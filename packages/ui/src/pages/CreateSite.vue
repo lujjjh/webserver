@@ -24,6 +24,9 @@
           v-html="$t('createSite.siteNameTipServe', { prefix: name, suffix: webserverPubSuffix })"
         />
         <div v-else class="tip">{{ $t("createSite.siteNameTip") }}</div>
+        <label for="target">{{ $t("createSite.target") }}</label>
+        <input id="target" :placeholder="$t('createSite.targetPlaceholder')" v-model.trim="target" />
+        <div class="tip">{{ $t("createSite.targetTip") }}</div>
         <button :disabled="!canSubmit">{{ $t("createSite.create") }}</button>
       </form>
     </div>
@@ -35,13 +38,14 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAutoFocus } from "@/shared/autofocus";
 import { useSites } from "@/shared/sites";
-import { sitePattern } from "@webserver/core";
+import { defaultSite, sitePattern } from "@webserver/core";
 import { webserverPubSuffix } from "@/env";
 
 ref: router = useRouter();
 ref: form = ref<HTMLFormElement>();
 ref: name = "";
 ref: error = ref<Error>();
+ref: target = "";
 ref: sites = useSites();
 ref: canSubmit = computed(() => name !== "" && !error);
 
@@ -57,8 +61,32 @@ const checkSiteName = () => {
 };
 
 const createSite = () => {
+  const targetURL = ["", "http://", "http:"].reduce<URL | undefined>((url, prefix) => {
+    if (url) return url;
+    try {
+      return new URL(prefix + target);
+    } catch {}
+  }, undefined);
+  if (targetURL && !["localhost", "127.0.0.1"].includes(targetURL.hostname)) {
+    targetURL.protocol = "https:";
+  }
   try {
-    sites.createSite(name);
+    if (targetURL) {
+      sites.createSite(name, {
+        config: {
+          routes: [
+            {
+              methods: ["*"],
+              path: "/*",
+              type: "proxy",
+              target: targetURL.toString(),
+            },
+          ],
+        },
+      });
+    } else {
+      sites.createSite(name, { config: defaultSite().config });
+    }
     router.push(`/sites/${name}`);
   } catch (e) {
     error = e;
