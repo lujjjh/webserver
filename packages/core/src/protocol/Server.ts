@@ -1,10 +1,4 @@
-import {
-  ClientMessage,
-  ErrorMessage,
-  requestMessageToRequest,
-  ResponseMessage,
-  responseToResponseMessage,
-} from "./message";
+import { ClientMessage, requestMessageToRequest, responseToResponseMessage } from "./message";
 
 const pendingConnections = new Set<Connection>();
 
