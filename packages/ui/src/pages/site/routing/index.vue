@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts" setup>
+import "@/monaco";
 import * as t from "io-ts";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { onBeforeRouteLeave } from "vue-router";
