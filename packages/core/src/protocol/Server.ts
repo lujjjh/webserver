@@ -1,4 +1,10 @@
-import { ClientMessage, requestMessageToRequest, ResponseMessage, responseToResponseMessage } from "./message";
+import {
+  ClientMessage,
+  ErrorMessage,
+  requestMessageToRequest,
+  ResponseMessage,
+  responseToResponseMessage,
+} from "./message";
 
 const pendingConnections = new Set<Connection>();
 
@@ -20,9 +26,6 @@ export class Connection {
     if (pendingConnections.has(this)) {
       clearTimeout(this.timer);
       pendingConnections.delete(this);
-      const { port } = this;
-      port.close();
-      port.removeEventListener("message", this.onMessage);
     }
   }
 
@@ -37,11 +40,32 @@ export class Connection {
     switch (message.type) {
       case "request": {
         const request = requestMessageToRequest(message);
-        const responseMessage = await responseToResponseMessage(await this.server.handleRequest(request));
-        port.postMessage(
-          responseMessage,
-          [responseMessage.body].filter(Boolean).map((x) => x!)
-        );
+        try {
+          const responseMessage = await responseToResponseMessage(await this.server.handleRequest(request));
+          port.postMessage(
+            responseMessage,
+            [responseMessage.body].filter(Boolean).map((x) => x!)
+          );
+        } catch (error) {
+          // TODO: friendly error page
+          const responseMessage = await responseToResponseMessage(
+            new Response(
+              JSON.stringify({
+                message: error.message,
+                stack: error.stack,
+              }),
+              {
+                status: 500,
+                statusText: "Internal server error",
+                headers: { "content-type": "application/json" },
+              }
+            )
+          );
+          port.postMessage(
+            responseMessage,
+            [responseMessage.body].filter(Boolean).map((x) => x!)
+          );
+        }
         break;
       }
       default:
