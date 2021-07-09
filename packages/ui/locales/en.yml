@@ -17,15 +17,19 @@ createSite:
   create: Create
 site:
   notFound: Site not found.
-  nav:
-    overview: Overview
-    settings: Settings
+siteNav:
+  overview: Overview
+  routing: Routing
+  settings: Settings
 overview:
   label:
     status: Status
     endpoint: URL
   status:
     running: Running
+routing:
+  label:
+    type: Type
 dangerZone:
   title: Danger zone
   removeSite: Remove this site

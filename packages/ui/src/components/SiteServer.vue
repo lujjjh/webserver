@@ -19,3 +19,10 @@ const handleMessage = (event: MessageEvent) => void server.connect(event);
 onMounted(() => void addEventListener("message", handleMessage));
 onUnmounted(() => void removeEventListener("message", handleMessage));
 </script>
+
+<style scoped>
+iframe {
+  display: none;
+  position: absolute;
+}
+</style>

@@ -176,7 +176,7 @@ form {
   width: 400px;
 }
 
-form > * {
+form > :not(:first-child) {
   margin: 10px 0;
 }
 
