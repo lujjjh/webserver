@@ -7,7 +7,7 @@ export interface Port {
 export class Client {
   constructor(private port: Port) {}
 
-  private roundTrip<T>(request: ClientMessage, transfers: Transferable[] = [], timeout = 1000) {
+  private roundTrip<T>(request: ClientMessage, transfers: Transferable[] = [], timeout = 60000) {
     const { port } = this;
     return new Promise<T>((resolve, reject) => {
       const { port1, port2 } = new MessageChannel();

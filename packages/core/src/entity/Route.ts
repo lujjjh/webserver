@@ -1,10 +1,12 @@
 import * as t from "io-ts";
 
-const Common = t.type({
-  id: t.string,
-  methods: t.array(t.string),
-  path: t.string,
-});
+const Common = t.intersection([
+  t.partial({ id: t.string }),
+  t.type({
+    methods: t.array(t.string),
+    path: t.string,
+  }),
+]);
 
 const StaticResponseRoute = t.type({
   type: t.literal("static"),

@@ -11,7 +11,11 @@ const props = defineProps<{
   site: Site;
 }>();
 
-ref: relayURL = computed(() => `https://${props.site.name}${webserverPubSuffix}/@@server@relay.html`);
+ref: relayURL = computed(() =>
+  window.location.hostname === "localhost"
+    ? `https://${props.site.name}${webserverPubSuffix}/@@server@relay.html`
+    : "about:blank"
+);
 ref: server = computed(() => new Server(props.site));
 
 const handleMessage = (event: MessageEvent) => void server.connect(event);

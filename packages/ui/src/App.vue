@@ -23,7 +23,9 @@ provideSites();
 }
 
 .board > main {
+  display: flex;
   flex: 1;
+  flex-direction: column;
   min-width: 0;
   overflow: auto;
 }
