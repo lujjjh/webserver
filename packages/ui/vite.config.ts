@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import { VitePWA as pwa } from "vite-plugin-pwa";
 import vueI18n from "@intlify/vite-plugin-vue-i18n";
 
 export default defineConfig({
@@ -17,6 +18,9 @@ export default defineConfig({
   clearScreen: false,
   plugins: [
     vue(),
+    pwa({
+      registerType: "autoUpdate",
+    }),
     vueI18n({
       include: resolve(__dirname, "./locales/**"),
     }),
