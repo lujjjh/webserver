@@ -5,6 +5,11 @@ import sw from "./@@server@sw?sw";
   await navigator.serviceWorker.ready;
   navigator.serviceWorker.addEventListener("controllerchange", () => void window.location.reload());
 
+  if (!window.location.pathname.startsWith("/@@server@")) {
+    window.location.reload();
+    return;
+  }
+
   if (window.parent !== window) {
     navigator.serviceWorker.addEventListener("message", async ({ ports: [port] }) => {
       if (!port) return;
