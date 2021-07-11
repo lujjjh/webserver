@@ -4,6 +4,7 @@ import CreateSite from "@/pages/CreateSite.vue";
 import Site from "@/pages/site/index.vue";
 import Overview from "@/pages/site/Overview.vue";
 import Settings from "@/pages/site/settings/index.vue";
+import PeerTest from "@/pages/PeerTest.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,6 +19,10 @@ const router = createRouter({
         { path: "routing", component: async () => (await import("@/pages/site/routing/index.vue")).default },
         { path: "settings", component: Settings },
       ],
+    },
+    {
+      path: "/peer-test",
+      component: PeerTest,
     },
   ],
 });

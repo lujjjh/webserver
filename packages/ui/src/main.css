@@ -28,6 +28,10 @@ html {
   color: var(--text-color);
 }
 
+body {
+  min-width: 1000px;
+}
+
 #app {
   min-height: 100vh;
 }
